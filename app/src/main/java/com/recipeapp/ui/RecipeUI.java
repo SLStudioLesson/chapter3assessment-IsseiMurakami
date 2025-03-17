@@ -26,8 +26,6 @@ public class RecipeUI {
 
             try {
 
-                System.out.println("Current mode: " + dataHandler.getMode());
-
                 System.out.println();
                 System.out.println("Main Menu:");
                 System.out.println("1: Display Recipes");

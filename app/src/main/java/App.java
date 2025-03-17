@@ -28,8 +28,7 @@ public class App {
                 dataHandler = new CSVDataHandler();
             }
             // Current mode表示
-            System.out.println("\nCurrent mode: " + dataHandler.getMode() + "\n");
-            System.out.println();
+            System.out.println("\nCurrent mode: " + dataHandler.getMode());
 
             RecipeUI ui = new RecipeUI(dataHandler);
             ui.displayMenu(reader);
