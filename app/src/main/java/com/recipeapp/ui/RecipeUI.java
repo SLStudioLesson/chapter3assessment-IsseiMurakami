@@ -13,17 +13,21 @@ public class RecipeUI {
     private BufferedReader reader;
     private DataHandler dataHandler;
 
+    // コンストラクタ
     public RecipeUI(DataHandler dataHandler) {
         reader = new BufferedReader(new InputStreamReader(System.in));
         this.dataHandler = dataHandler;
     }
 
+    // メインメニュー表示と入力処理
     public void displayMenu(BufferedReader reader) {
 
         while (true) {
-            System.out.println("Current mode: " + dataHandler.getMode());
 
             try {
+
+                System.out.println("Current mode: " + dataHandler.getMode());
+
                 System.out.println();
                 System.out.println("Main Menu:");
                 System.out.println("1: Display Recipes");
@@ -31,14 +35,15 @@ public class RecipeUI {
                 System.out.println("3: Search Recipe");
                 System.out.println("4: Exit Application");
                 System.out.print("Please choose an option: ");
-
+                // ユーザー入力を取得
                 String choice = reader.readLine();
-
+                // 入力に応じた処理を実行
                 switch (choice) {
                     case "1":
                         displayRecipes();
                         break;
                     case "2":
+                        addNewRecipe(reader);
                         break;
                     case "3":
                         break;
@@ -64,7 +69,7 @@ public class RecipeUI {
             ArrayList<Recipe> recipes = dataHandler.readData();
 
             if (recipes == null || recipes.isEmpty()) {
-                System.out.println("No recipes available");
+                System.out.println("No recipes available.");
                 return;
             }
 
@@ -90,4 +95,41 @@ public class RecipeUI {
             System.out.println("Error reading input from user: " + e.getMessage());
         }
     }
+
+    // 新規登録機能
+    private void addNewRecipe(BufferedReader reader) {
+        try {
+            System.out.println("Adding a new recipe.");
+            System.out.print("Enter recipe name: ");
+            String recipeName = reader.readLine();
+
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+            System.out.println("Enter ingredients (type 'done' when finished):");
+
+            while (true) {
+                System.out.print("Ingredient: ");
+                String ingredientName = reader.readLine();
+
+                if ("done".equalsIgnoreCase(ingredientName)) {
+                    break;
+                }
+
+                if (ingredientName != null && !ingredientName.trim().isEmpty()) {
+                    ingredients.add(new Ingredient(ingredientName.trim()));
+                } else {
+                    System.out.println("");
+                }
+            }
+            // 入力されたレシピ名と材料でRecipeを作成
+            Recipe newRecipe = new Recipe(recipeName, ingredients);
+            // DataHandlerを使ってrecipes.csvに追加
+            dataHandler.writeData(newRecipe);
+
+            System.out.println("Recipe added successfully.");
+        } catch (IOException e) {
+            System.err.println("Failed to add new recipe: " + e.getMessage());
+        }
+    }
+
 }

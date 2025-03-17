@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import com.recipeapp.datahandler.CSVDataHandler;
 import com.recipeapp.datahandler.DataHandler;
 import com.recipeapp.datahandler.JSONDataHandler;
+import com.recipeapp.ui.RecipeUI;
 
 public class App {
 
@@ -16,6 +17,7 @@ public class App {
             System.out.println("1. CSV");
             System.out.println("2. JSON");
             System.out.print("Select (1/2): ");
+
             String choice = reader.readLine();
 
             if ("1".equals(choice)) {
@@ -25,8 +27,12 @@ public class App {
             } else {
                 dataHandler = new CSVDataHandler();
             }
-
+            // Current mode表示
             System.out.println("\nCurrent mode: " + dataHandler.getMode() + "\n");
+            System.out.println();
+
+            RecipeUI ui = new RecipeUI(dataHandler);
+            ui.displayMenu(reader);
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

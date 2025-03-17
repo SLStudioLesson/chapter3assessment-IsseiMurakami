@@ -15,7 +15,7 @@ public class CSVDataHandler implements DataHandler {
     private String filePath;
 
     public CSVDataHandler() {
-        this.filePath = "src/main/resources/recipes.csv";
+        this.filePath = "app/src/main/resources/recipes.csv";
     }
 
     public CSVDataHandler(String filePath) {
@@ -56,19 +56,21 @@ public class CSVDataHandler implements DataHandler {
 
     @Override
     public void writeData(Recipe recipe) throws IOException {
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,true))){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             StringBuilder line = new StringBuilder();
             line.append(recipe.getName());
 
-            for(Ingredient ingredient : recipe.getIngredients()){
+            for (Ingredient ingredient : recipe.getIngredients()) {
                 line.append(",").append(ingredient.getName());
             }
+
+            writer.newLine();
+            writer.write(line.toString());
         }
     }
 
     @Override
     public ArrayList<Recipe> searchData(String keyword) throws IOException {
-        //
         return null;
     }
 }
